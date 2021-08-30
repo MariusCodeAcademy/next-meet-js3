@@ -28,17 +28,28 @@ const HomePage = (props) => {
 
 // tam kad puslapis butu sugeneruotas duomenims pasikeitus yra naudojami 2 budai
 
-// SSR server side rendering - duomenys sugeneruojami uzklausom metus, tinka labiau kai duomenys kinta kas sekunde ar greiciau
-// SSG static site Generatingas getStaticProps() = duomeny sugeneruojami aplikacijos sukurimo metu ir atnaujinami jei reikia tam tikru intervalu
-export function getStaticProps() {
+// SSR server side rendering getServerSideProps - duomenys sugeneruojami uzklausom metus, tinka labiau kai duomenys kinta kas sekunde ar greiciau
+export function getServerSideProps(context) {
   // sitas kodas niekada neatsidurs pas clienta, cia galima sakyti yra back end erdve
-  // fetch, validacija ir pan
+  const req = context.req;
+  const res = context.res;
+  // console.log(req);
   return {
     props: {
       meetups: DUMMY_MEETUPS,
     },
-    revalidate: 10, // kas 10 sek duomenys bus atnaujinami
   };
 }
+// SSG static site Generatingas getStaticProps() = duomeny sugeneruojami aplikacijos sukurimo metu ir atnaujinami jei reikia tam tikru intervalu
+// export function getStaticProps() {
+//   // sitas kodas niekada neatsidurs pas clienta, cia galima sakyti yra back end erdve
+//   // fetch, validacija ir pan
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS,
+//     },
+//     revalidate: 10, // kas 10 sek duomenys bus atnaujinami
+//   };
+// }
 
 export default HomePage;
