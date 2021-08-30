@@ -10,11 +10,18 @@ async function handler(req, res) {
   if (req.method === 'POST') {
     const data = req.body;
     console.log('got data in api/new-meetup', data);
-
-    const client = await MongoClient.connect('your connection');
-
-    client.close();
-    res.status(200).json({ msg: 'success', data });
+    try {
+      const client = await MongoClient.connect('your connection');
+      const db = client.db();
+      // sukurti arba nusitiaikyti i esama
+      const meetupCollecion = db.collection('meetups');
+      const insertResult = await meetupCollecion.insertOne(data);
+      res.status(201).json({ msg: 'success', insertResult });
+    } catch (error) {
+      res.status(500).json({ error: error });
+    } finally {
+      client.close();
+    }
   }
 }
 
