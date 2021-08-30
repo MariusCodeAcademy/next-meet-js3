@@ -4,7 +4,6 @@ import { MongoClient } from 'mongodb';
 // cia aprasyt galima prisijungimo slaptazodzius ir kita susijusia info
 // cia aprasytas kodas nekeliauja i client narykle
 
-//mongodb+srv://<username>:<password>@mokytisvisada7.sadbw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 async function handler(req, res) {
   console.log(req.method);
   if (req.method === 'POST') {
