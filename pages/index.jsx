@@ -1,3 +1,6 @@
+import { MongoClient } from 'mongodb';
+// jei mes importuojam kazka kas bus naudojama tik getServerSideProps arba getStaticProps ...
+// jie nebuna prideti prie galutinio react componento
 import MeetupList from '../components/meetups/MeetupList';
 
 const DUMMY_MEETUPS = [
@@ -18,6 +21,7 @@ const DUMMY_MEETUPS = [
 ];
 
 const HomePage = (props) => {
+  // fet
   return (
     <>
       <h1>Home meetup page</h1>
@@ -44,11 +48,30 @@ const HomePage = (props) => {
 export async function getStaticProps() {
   // sitas kodas niekada neatsidurs pas clienta, cia galima sakyti yra back end erdve
   // fetch, validacija ir pan
+  const client = await MongoClient.connect(process.env.MONGO_CONN);
+  const db = client.db();
+  // sukurti arba nusitiaikyti i esama
+  const meetupCollecion = db.collection('meetups');
+  const allMeets = await meetupCollecion.find({}).toArray();
+  client.close();
+  console.log('All meeets transformed ============');
+  // console.log(allMeets);
+  const meetsInReqFormat = allMeets.map((dbObj) => {
+    // _id yra ObjectId ir gausim klaida jei bandysim nuskaityti ji kaip string jsx
+    return {
+      id: dbObj._id.toString(),
+      title: dbObj.title,
+      address: dbObj.address,
+      image: dbObj.image,
+      description: dbObj.description,
+    };
+  });
+  console.log(meetsInReqFormat);
   return {
     props: {
-      meetups: DUMMY_MEETUPS,
+      meetups: meetsInReqFormat,
     },
-    revalidate: 5, // kas 10 sek duomenys bus atnaujinami
+    revalidate: 2, // kas 10 sek duomenys bus atnaujinami
   };
 }
 
