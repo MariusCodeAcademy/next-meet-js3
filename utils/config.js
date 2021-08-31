@@ -1,1 +1,1 @@
-export const SITE_NAME = 'React Meetups';
+export const SITE_NAME = 'React Meetup';

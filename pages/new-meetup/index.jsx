@@ -2,6 +2,7 @@ import axios from 'axios';
 import NewMeetupForm from '../../components/meetups/NewMeetupForm';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { SITE_NAME } from '../../utils/config';
 
 const NewMeetup = () => {
   // title = Create Meetup - React Meetup
@@ -20,7 +21,7 @@ const NewMeetup = () => {
   return (
     <>
       <Head>
-        <title>Create Meetup - React Meetup</title>
+        <title>Create Meetup - {SITE_NAME}</title>
         <meta
           name='description'
           content='Add new meetup and conncect with people'
