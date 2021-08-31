@@ -26,4 +26,15 @@
 13. addPaintingPage submitinant forma irasom duomenis i masyva esanti localStorage
 14. paintings page atvaizduojam duomenis pasieme is localStorage masyvo
 
+15. pakeisti localStorage i mongoDb duomenu baze.
+    15.1 home page naudoti duomenis is mongoDB
+    15.2 newPainting pridejimo metu issiusti uzklausa POST irasyti duomenims i mongoDb (naudojant API papke pages viduje 16punktas)
+    15.3 paintingDetailsPage pasiimti duomenis is duomenu bazes
+
+16. pasikurti paveikslu pridejimui api pages viduje kuriame aprasyta logika irasyti irasa i DB
+17. Prisideti visiems puslpiams title ir description meta tagus
+18. Prisideti savo norima favicon (issiaiskinti kaip prisideda)
+19. patalpinti savo kurini internete naudojant vercel(ar kita platforma jei jums patogiau )
+20. Klases darbe panaudoti getCollecion api dalyje kad gauti ta pati funkcionaluma
+
 \*/
