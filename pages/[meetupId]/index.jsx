@@ -1,10 +1,18 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail';
 import { getColletion } from '../../utils/mongo-data';
 import { ObjectId } from 'mongodb';
+import Head from 'next/head';
+import { SITE_NAME } from '../../utils/config';
 
 const MeetupDetails = (props) => {
   return (
     <>
+      <Head>
+        <title>
+          {props.meetupData.title} - {SITE_NAME}
+        </title>
+        <meta name='description' content={props.meetupData.description} />
+      </Head>
       <MeetupDetail
         title={props.meetupData.title}
         image={props.meetupData.image}
@@ -51,7 +59,7 @@ export async function getStaticProps(context) {
   const currentMeetObj = await meetColletion.findOne({
     _id: ObjectId(currentId),
   });
-  console.log('currentMeetObj', currentMeetObj);
+  // console.log('currentMeetObj', currentMeetObj);
   client.close();
   return {
     props: {

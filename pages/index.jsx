@@ -2,28 +2,17 @@
 // jie nebuna prideti prie galutinio react componento
 import MeetupList from '../components/meetups/MeetupList';
 import { getColletion } from '../utils/mongo-data';
-
-const DUMMY_MEETUPS = [
-  {
-    id: 'm1',
-    title: 'The first meetup',
-    image: 'https://picsum.photos/id/1016/1000/800',
-    address: 'Some street 5, 2328282, Rome, Italy',
-    description: 'This is our first meet in Italy',
-  },
-  {
-    id: 'm2',
-    title: 'The Engalnd meetup',
-    image: 'https://picsum.photos/id/1018/1000/800',
-    address: 'Highbury road 5, 2328282, London, England',
-    description: 'This is our first meet in UK',
-  },
-];
+import Head from 'next/head';
+import { SITE_NAME } from '../utils/config';
 
 const HomePage = (props) => {
-  // fet
+  // title = All Meetups - React Meetups
   return (
     <>
+      <Head>
+        <title>All Meetups - {SITE_NAME}</title>
+        <meta name='description' content='Browse meetups around the world' />
+      </Head>
       <h1>Home meetup page</h1>
       <MeetupList meetups={props.meetups} />
     </>

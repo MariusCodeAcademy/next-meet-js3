@@ -1,8 +1,10 @@
 import axios from 'axios';
 import NewMeetupForm from '../../components/meetups/NewMeetupForm';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const NewMeetup = () => {
+  // title = Create Meetup - React Meetup
   // objektas kuris turi ivairia routing informacija ir metodus
   const router = useRouter();
   async function addMeetupHandler(enteredMeetupData) {
@@ -17,6 +19,13 @@ const NewMeetup = () => {
 
   return (
     <>
+      <Head>
+        <title>Create Meetup - React Meetup</title>
+        <meta
+          name='description'
+          content='Add new meetup and conncect with people'
+        />
+      </Head>
       <NewMeetupForm onAddMeetup={addMeetupHandler} />
     </>
   );
