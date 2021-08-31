@@ -44,8 +44,9 @@ export async function getStaticPaths() {
   });
 
   return {
-    fallback: false,
+    fallback: 'blocking',
     // TRUE: jei einam i psl kurio nera aprasyta paths tai tas psl sugeneruojamas uzklausom metu
+    // blocking: taip pat kaip True bet sugeneruos psl tada kai turesi visus duomenis
     // FALSE: jei einam i psl kurio nera aprasyta paths tai gaunam 404
     paths: pathsArrOfCurrentMeets,
   };
@@ -70,7 +71,7 @@ export async function getStaticProps(context) {
         address: currentMeetObj.address,
         description: currentMeetObj.description,
       },
-      revalidate: 2,
+      revalidate: 1,
     },
   };
 }
