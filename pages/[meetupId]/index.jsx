@@ -1,5 +1,6 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail';
 import { getColletion } from '../../utils/mongo-data';
+import { ObjectId } from 'mongodb';
 
 const MeetupDetails = (props) => {
   return (
@@ -21,7 +22,7 @@ export async function getStaticPaths() {
   const [meetupCollecion, client] = await getColletion();
   // const meetupCollecion = arr[0];
   // const client = arr[1];
-  console.log('meetupCollecion', meetupCollecion);
+
   const allMeets = await meetupCollecion.find({}).toArray();
 
   client.close();
@@ -33,7 +34,6 @@ export async function getStaticPaths() {
       },
     };
   });
-  console.log(pathsArrOfCurrentMeets);
 
   return {
     fallback: false,
@@ -43,18 +43,26 @@ export async function getStaticPaths() {
   };
 }
 
-export function getStaticProps(context) {
+export async function getStaticProps(context) {
   console.log(context.params.meetupId);
+  const currentId = context.params.meetupId;
+  const [meetColletion, client] = await getColletion();
+  // surandame viena
+  const currentMeetObj = await meetColletion.findOne({
+    _id: ObjectId(currentId),
+  });
+  console.log('currentMeetObj', currentMeetObj);
+  client.close();
   return {
     props: {
       meetupData: {
-        id: context.params.meetupId,
-        title: 'The first meetup',
-        image: 'https://picsum.photos/id/1016/1000/800',
-        address: 'Some street 5, 2328282, Rome, Italy',
-        description: 'This is our first meet in Italy',
+        id: currentId,
+        title: currentMeetObj.title,
+        image: currentMeetObj.image,
+        address: currentMeetObj.address,
+        description: currentMeetObj.description,
       },
-      revalidate: 5,
+      revalidate: 2,
     },
   };
 }
