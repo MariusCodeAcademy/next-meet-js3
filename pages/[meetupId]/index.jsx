@@ -1,5 +1,6 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail';
 import { MongoClient } from 'mongodb';
+import { getColletion } from '../../utils/mongo-data';
 
 const MeetupDetails = (props) => {
   return (
@@ -20,6 +21,8 @@ export async function getStaticPaths() {
   const db = client.db();
   // sukurti arba nusitiaikyti i esama
   const meetupCollecion = db.collection('meetups');
+  // aprasyti prisijungimo logika ir gauti reikiamas reiksmes kad musu funkcija (getStaticPaths) veiktu taip pat
+  getColletion();
   const allMeets = await meetupCollecion.find({}).toArray();
   client.close();
   console.log('All meeets getStaticPaths ============');
