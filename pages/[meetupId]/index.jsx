@@ -1,4 +1,6 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail';
+import { MongoClient } from 'mongodb';
+
 const MeetupDetails = (props) => {
   return (
     <>
@@ -12,24 +14,29 @@ const MeetupDetails = (props) => {
   );
 };
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
   // nurodo pagal kokia dinamine informacija sugeneruoti statinius puslapius
+  const client = await MongoClient.connect(process.env.MONGO_CONN);
+  const db = client.db();
+  // sukurti arba nusitiaikyti i esama
+  const meetupCollecion = db.collection('meetups');
+  const allMeets = await meetupCollecion.find({}).toArray();
+  client.close();
+  console.log('All meeets getStaticPaths ============');
+  const pathsArrOfCurrentMeets = allMeets.map((dbObj) => {
+    return {
+      params: {
+        meetupId: dbObj._id.toString(),
+      },
+    };
+  });
+  console.log(pathsArrOfCurrentMeets);
+
   return {
     fallback: false,
     // TRUE: jei einam i psl kurio nera aprasyta paths tai tas psl sugeneruojamas uzklausom metu
     // FALSE: jei einam i psl kurio nera aprasyta paths tai gaunam 404
-    paths: [
-      {
-        params: {
-          meetupId: 'm1',
-        },
-      },
-      {
-        params: {
-          meetupId: 'm2',
-        },
-      },
-    ],
+    paths: pathsArrOfCurrentMeets,
   };
 }
 
