@@ -1,7 +1,7 @@
-import { MongoClient } from 'mongodb';
 // jei mes importuojam kazka kas bus naudojama tik getServerSideProps arba getStaticProps ...
 // jie nebuna prideti prie galutinio react componento
 import MeetupList from '../components/meetups/MeetupList';
+import { getColletion } from '../utils/mongo-data';
 
 const DUMMY_MEETUPS = [
   {
@@ -48,10 +48,7 @@ const HomePage = (props) => {
 export async function getStaticProps() {
   // sitas kodas niekada neatsidurs pas clienta, cia galima sakyti yra back end erdve
   // fetch, validacija ir pan
-  const client = await MongoClient.connect(process.env.MONGO_CONN);
-  const db = client.db();
-  // sukurti arba nusitiaikyti i esama
-  const meetupCollecion = db.collection('meetups');
+  const [meetupCollecion, client] = await getColletion();
   const allMeets = await meetupCollecion.find({}).toArray();
   client.close();
   console.log('All meeets transformed ============');
